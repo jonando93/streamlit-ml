@@ -30,6 +30,8 @@ def app():
     > -- via [Kaggle](https://www.kaggle.com/kaggle/recipe-ingredients-dataset)
     """)
 
+    st.write("""---""")
+
     st.write("""
     ## **Column Names**
     ### train.json
@@ -48,6 +50,8 @@ def app():
     # Show df_test.head()
     st.dataframe(df_test.head())
 
+    st.write("""---""")
+
     st.write("""
     ## **Column Data Types**
     - **id** - int64
@@ -55,3 +59,12 @@ def app():
     - **ingredients** - object
     """)
 
+    st.write("""---""")
+
+    st.write("""
+    ## **Dataframe Shape**
+    """)
+    st.subheader("Train Dataframe")
+    st.write(df_train.shape)
+    st.subheader("Test Dataframe")
+    st.write(df_test.shape)
