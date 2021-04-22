@@ -4,21 +4,11 @@ import pandas as pd
 from DecisionTree_DataUnderstanding import df_train
 from DecisionTree_DataUnderstanding import df_test
 
-# Create variable for all entries (number of rows)
-row_entries = len(df_train['id'])
-
 # Create set list for all ingredients
 all_ingredients = set()
 for ingredients in df_train['ingredients']:
     all_ingredients = all_ingredients | set(ingredients)
 len(all_ingredients)
-
-# Create 2 variables for total_ingredients and average_ingredients
-total_ingredients = 0
-for ingredients in df_train['ingredients']:
-    total_ingredients += len(ingredients)
-average_ingredients = total_ingredients / row_entries
-
 
 # Section 3 - Data Preparation
 def app():
