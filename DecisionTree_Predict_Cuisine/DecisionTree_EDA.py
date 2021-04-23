@@ -1,7 +1,6 @@
 # Import Libraries
 import pandas as pd
 import streamlit as st
-import numpy as np
 from DecisionTree_DataPrep import df_train
 from collections import Counter
 
