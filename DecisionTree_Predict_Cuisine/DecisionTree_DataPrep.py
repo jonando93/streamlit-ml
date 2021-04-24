@@ -1,5 +1,6 @@
 # Import Libraries
 import streamlit as st
+import re
 import pandas as pd
 from DecisionTree_DataUnderstanding import df_train
 from DecisionTree_DataUnderstanding import df_test
@@ -9,6 +10,31 @@ all_ingredients = set()
 for ingredients in df_train['ingredients']:
     all_ingredients = all_ingredients | set(ingredients)
 len(all_ingredients)
+
+# Removing any unnecessary string characters
+list_of_lists = []
+for row in df_train['ingredients']:
+    l = []
+    for lists in row:
+        # Remove Digits
+        lists = re.sub(r"(\d)", "", lists)
+
+        # Remove Content Inside Parentheses
+        lists = re.sub(r"\([^)]*\)", "", lists)
+
+        # Remove TradeMark Char
+        lists = re.sub(u"\u2122", "", lists)
+
+        # Remove Unicode Char
+        lists = re.sub(r"[^\x00-\x7F]+", "", lists)
+
+        # Convert to lowercase
+        lists = lists.lower()
+
+        l.append(lists)
+    list_of_lists.append(l)
+
+df_train['ingredients'] = list_of_lists
 
 # Section 3 - Data Preparation
 def app():
@@ -42,9 +68,19 @@ def app():
 
     st.write("""---""")
 
+    st.subheader("Replacing String Characters")
+    st.write("""
+    While checking the dataset, I noticed that some of the ingredients include string characters
+    such as '(', ')', '%' and '.'. For example, '(10 oz.) tomato sauce' should be labeled only as
+    'tomato sauce', and also '1% low-fat butter' should only be labeled as 'low-fat butter'.
+    """)
+    st.code("re.sub(r'(\d)', '', list) # remove digits \n"
+            "re.sub(r'\([^)]*\), '', list) # remove parentheses and its content \n"
+            "re.sub(r'[^\x00-\x7F]+', '', list) # remove unicode characters")
+
+    st.write("""---""")
+
     st.write("""
     The datasets are cleaned and ready to be processed in the next phase which is Exploratory 
     Data Analysis
     """)
-
-
