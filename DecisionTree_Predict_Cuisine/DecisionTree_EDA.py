@@ -2,7 +2,6 @@
 import pandas as pd
 import streamlit as st
 from DecisionTree_DataPrep import df_train
-from DecisionTree_DataPrep import df_train_onehot
 from collections import Counter
 
 # Create variable for all entries (number of rows)
@@ -29,12 +28,6 @@ num_of_ing_dist = Counter(ingredients_per_recipe)
 df_num_of_ing_dist = pd.DataFrame.from_dict(num_of_ing_dist, orient='index', columns=['occurrences'])
 df_num_of_ing_dist.index.name = 'num_of_ingredients'
 
-# Create a profile for each cuisine
-cuisines = df_train_onehot.copy()
-cuisines.drop(['id'], axis=1, inplace=True)
-print(cuisines.head())
-
-
 # Section 4 - Exploratory Data Analysis
 def app():
     st.title("Section 4 - Exploratory Data Analysis")
@@ -60,12 +53,16 @@ def app():
 
     st.write("""---""")
 
-    st.subheader("Least Amount of Ingredients in All Recipes")
+    st.subheader("Least Amount of Ingredient(s) in All Recipes")
     st.write(least_ingredients)
 
     st.subheader("Most Amount of Ingredients in All Recipes")
     st.write(most_ingredients)
 
+    st.write("""---""")
+
     st.subheader("Amount of Ingredients Distribution")
     st.write(df_num_of_ing_dist)
     st.bar_chart(df_num_of_ing_dist)
+
+    st.write("""---""")
