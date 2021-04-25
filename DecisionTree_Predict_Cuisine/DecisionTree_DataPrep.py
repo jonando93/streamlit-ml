@@ -28,6 +28,16 @@ for row in df_train['ingredients']:
         # Remove Unicode Char
         lists = re.sub(r"[^\x00-\x7F]+", "", lists)
 
+        # Remove percentage sign
+        lists = lists.strip('%')
+
+        # Remove random words
+        lists = lists.strip("/ to lb.")
+        lists = re.sub(r"-bone", "bone", lists)
+
+        # Remove leading and trailing whitespace
+        lists = lists.strip()
+
         # Convert to lowercase
         lists = lists.lower()
 
