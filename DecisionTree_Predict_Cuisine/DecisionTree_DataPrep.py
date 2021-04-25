@@ -5,12 +5,6 @@ import pandas as pd
 from DecisionTree_DataUnderstanding import df_train
 from DecisionTree_DataUnderstanding import df_test
 
-# Create set list for all ingredients
-all_ingredients = set()
-for ingredients in df_train['ingredients']:
-    all_ingredients = all_ingredients | set(ingredients)
-len(all_ingredients)
-
 # Removing any unnecessary string characters
 list_of_lists = []
 for row in df_train['ingredients']:
@@ -44,6 +38,12 @@ for row in df_train['ingredients']:
     list_of_lists.append(l)
 
 df_train['ingredients'] = list_of_lists
+
+# Create set list for all ingredients
+all_ingredients = set()
+for ingredients in df_train['ingredients']:
+    all_ingredients = all_ingredients | set(ingredients)
+len(all_ingredients)
 
 # Section 3 - Data Preparation
 def app():
