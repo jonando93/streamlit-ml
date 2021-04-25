@@ -2,22 +2,7 @@
 import streamlit as st
 import pandas as pd
 from DecisionTree_DataPrep import df_train
-from sklearn.preprocessing import MultiLabelBinarizer
-
-df_train_copy = df_train.copy()
-
-# Create object for MultiLabelBinarizer
-mlb = MultiLabelBinarizer(sparse_output=True)
-
-# Create new DataFrame for One-Hot Encoding method
-df_train_onehot = df_train_copy.join(
-    pd.DataFrame.sparse.from_spmatrix(
-        mlb.fit_transform(df_train_copy.pop('ingredients')),
-        index=df_train_copy.index,
-        columns=mlb.classes_))
-print(df_train_onehot)
-print(df_train['ingredients'].head())
-print(df_train_copy)
+from DecisionTree_DataPrep import df_train_onehot
 
 # Section 5 - Machine Learning Model
 def app():
@@ -35,5 +20,5 @@ def app():
     st.write(df_train['ingredients'].head(3))
     st.write("""
     I will use **one-hot encoding** method to make separate columns for each ingredients.
-    """)
+    """) # One-Hot Dataframe already prepared in DataPrep section
     st.write(df_train_onehot.head(3))

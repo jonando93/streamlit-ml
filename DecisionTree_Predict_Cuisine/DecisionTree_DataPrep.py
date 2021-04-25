@@ -4,6 +4,7 @@ import re
 import pandas as pd
 from DecisionTree_DataUnderstanding import df_train
 from DecisionTree_DataUnderstanding import df_test
+from sklearn.preprocessing import MultiLabelBinarizer
 
 # Removing any unnecessary string characters
 list_of_lists = []
@@ -44,6 +45,19 @@ all_ingredients = set()
 for ingredients in df_train['ingredients']:
     all_ingredients = all_ingredients | set(ingredients)
 len(all_ingredients)
+
+# Create a copy of df_train for One-Hot Encoding method
+df_train_copy = df_train.copy()
+
+# Create object for MultiLabelBinarizer
+mlb = MultiLabelBinarizer(sparse_output=True)
+
+# Create new DataFrame for One-Hot Encoding method
+df_train_onehot = df_train_copy.join(
+    pd.DataFrame.sparse.from_spmatrix(
+        mlb.fit_transform(df_train_copy.pop('ingredients')),
+        index=df_train_copy.index,
+        columns=mlb.classes_))
 
 # Section 3 - Data Preparation
 def app():
