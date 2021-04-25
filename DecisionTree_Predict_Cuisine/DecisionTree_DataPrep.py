@@ -43,8 +43,7 @@ for row in df_train['ingredients']:
         l.append(lists)
     list_of_lists.append(l)
 
-df_train['test'] = list_of_lists
-df_train.to_csv('df_train.csv', index=False)
+df_train['ingredients'] = list_of_lists
 
 # Section 3 - Data Preparation
 def app():
