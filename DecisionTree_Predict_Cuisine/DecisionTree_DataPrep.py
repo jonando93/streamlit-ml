@@ -29,11 +29,7 @@ for row in df_train['ingredients']:
         lists = re.sub(r"[^\x00-\x7F]+", "", lists)
 
         # Remove percentage sign
-        lists = lists.strip('%')
-
-        # Remove random words
-        lists = lists.strip("/ to lb.")
-        lists = re.sub(r"-bone", "bone", lists)
+        lists = re.sub(r"%\s", "", lists)
 
         # Remove leading and trailing whitespace
         lists = lists.strip()
@@ -86,7 +82,9 @@ def app():
     """)
     st.code("re.sub(r'(\d)', '', list) # remove digits \n"
             "re.sub(r'\([^)]*\), '', list) # remove parentheses and its content \n"
-            "re.sub(r'[^\x00-\x7F]+', '', list) # remove unicode characters")
+            "re.sub(r'[^\x00-\x7F]+', '', list) # remove unicode characters \n"
+            "re.sub(r'%\s', '', list) # remove percentage sign and its trailing whitespace \n"
+            "list.strip() # remove leading and trailing whitespace")
 
     st.write("""---""")
 
