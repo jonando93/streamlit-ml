@@ -31,6 +31,9 @@ for row in df_train['ingredients']:
         # Remove percentage sign
         lists = re.sub(r"%\s", "", lists)
 
+        # Remove random words
+        lists = re.sub(r"/ to  lb.", "", lists)
+
         # Remove leading and trailing whitespace
         lists = lists.strip()
 
@@ -40,7 +43,8 @@ for row in df_train['ingredients']:
         l.append(lists)
     list_of_lists.append(l)
 
-df_train['ingredients'] = list_of_lists
+df_train['test'] = list_of_lists
+df_train.to_csv('df_train.csv', index=False)
 
 # Section 3 - Data Preparation
 def app():
