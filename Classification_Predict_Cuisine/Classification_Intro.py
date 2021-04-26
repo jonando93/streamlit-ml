@@ -27,9 +27,8 @@ def app():
     problems
     
     ## **Project Idea**
-    In this project, I am going to try to build one of the Machine Learning model called **Decision Tree**
-    to predict the origin of cuisine based on only ingredients. Decision Tree falls under the classification
-    category which is belong to the supervised learning model
+    In this project, I am going to try to build multiple Machine Learning models to predict the origin of 
+    cuisine based on only ingredients. Classification category is belong to the supervised learning model.
     
     ***
     """)

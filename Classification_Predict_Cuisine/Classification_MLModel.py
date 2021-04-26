@@ -45,7 +45,7 @@ print("Accuracy is ", accuracy_score(y_pred, y_test)*100)
 def app():
     st.title("Section 5 - Machine Learning Model")
     st.write("""
-    In this section, I am going to build the Decision Tree Model to predict cuisine based on 
+    In this section, I am going to build multiple Classification Model to predict cuisine based on 
     ingredients. In the previous section, I have prepared the dataset that will be used in 
     building the model. 
     """)
