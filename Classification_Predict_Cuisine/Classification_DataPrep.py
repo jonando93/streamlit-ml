@@ -2,8 +2,8 @@
 import streamlit as st
 import re
 import pandas as pd
-from DecisionTree_DataUnderstanding import df_train
-from DecisionTree_DataUnderstanding import df_test
+from Classification_DataUnderstanding import df_train
+from Classification_DataUnderstanding import df_test
 from sklearn.preprocessing import MultiLabelBinarizer
 
 # ----- TRAIN DATASET -----

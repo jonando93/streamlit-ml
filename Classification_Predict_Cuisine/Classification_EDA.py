@@ -1,7 +1,7 @@
 # Import Libraries
 import pandas as pd
 import streamlit as st
-from DecisionTree_DataPrep import df_train
+from Classification_DataPrep import df_train
 from collections import Counter
 
 # Create variable for all entries (number of rows)

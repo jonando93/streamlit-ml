@@ -2,9 +2,9 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from DecisionTree_DataPrep import df_train
-from DecisionTree_DataPrep import df_train_onehot
-from DecisionTree_DataPrep import df_test_onehot
+from Classification_DataPrep import df_train
+from Classification_DataPrep import df_train_onehot
+from Classification_DataPrep import df_test_onehot
 from sklearn import tree
 from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.model_selection import train_test_split
