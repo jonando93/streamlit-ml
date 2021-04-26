@@ -5,7 +5,9 @@ import numpy as np
 from Classification_DataPrep import df_train
 from Classification_DataPrep import df_train_onehot
 from Classification_DataPrep import df_test_onehot
-from sklearn import tree
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.model_selection import train_test_split
 import graphviz
@@ -24,8 +26,8 @@ ingredients = df_train_onehot.iloc[:, 2:] # x
 
 x_train, x_test, y_train, y_test = train_test_split(ingredients, cuisines, test_size=0.2, random_state=69)
 
-# Create object for decision tree model called mango_tree
-mango_tree = tree.DecisionTreeClassifier(class_weight=None,
+# Create object for decision tree model called dec_tree
+dec_tree = DecisionTreeClassifier(class_weight=None,
                                          criterion='gini',
                                          max_depth=None,
                                          max_features=None,
@@ -37,9 +39,44 @@ mango_tree = tree.DecisionTreeClassifier(class_weight=None,
                                          min_weight_fraction_leaf=0.0,
                                          random_state=None,
                                          splitter='best')
-mango_tree.fit(x_train, y_train)
-y_pred = mango_tree.predict(x_test)
-print("Accuracy is ", accuracy_score(y_pred, y_test)*100)
+dec_tree.fit(x_train, y_train)
+y_pred_dec_tree = dec_tree.predict(x_test)
+dec_tree_accuracy = accuracy_score(y_pred_dec_tree, y_test)
+
+# Create object for log reg model called log_reg
+log_reg = LogisticRegression(C=1.0,
+                             class_weight=None,
+                             dual=False,
+                             fit_intercept=True,
+                             intercept_scaling=1,
+                             l1_ratio=None,
+                             max_iter=100,
+                             multi_class='auto',
+                             n_jobs=None,
+                             penalty='l2',
+                             random_state=None,
+                             solver='lbfgs',
+                             tol=0.0001,
+                             verbose=0,
+                             warm_start=False)
+log_reg.fit(x_train, y_train)
+y_pred_log_reg = log_reg.predict(x_test)
+log_reg_accuracy = accuracy_score(y_pred_log_reg, y_test)
+
+# Create object for KNN model called knn
+# Add elbow method (NEXT TASK!) to find most suitable n_neighbors
+knn = KNeighborsClassifier(algorithm='auto',
+                           leaf_size=30,
+                           metric='minkowski',
+                           metric_params=None,
+                           n_jobs=None,
+                           n_neighbors=20,
+                           p=2,
+                           weights='uniform')
+knn.fit(x_train, y_train)
+y_pred_knn = knn.predict(x_test)
+knn_accuracy = accuracy_score(y_pred_knn, y_test)
+
 
 # Section 5 - Machine Learning Model
 def app():
@@ -61,4 +98,61 @@ def app():
     st.write(df_train_onehot.head(3))
 
     st.write("""---""")
+
+    # DECISION TREE MODEL
+    st.subheader("Model 1 - Decision Tree")
+    st.code("""
+    DecisionTreeClassifier(class_weight=None, 
+                           criterion='gini', 
+                           max_depth=None, 
+                           max_features=None, 
+                           max_leaf_nodes=None, 
+                           min_impurity_decrease=0.0,
+                           min_impurity_split=None,
+                           min_samples_leaf=1,
+                           min_samples_split=2,
+                           min_weight_fraction_leaf=0.0,
+                           random_state=None,
+                           splitter='best')
+    """)
+    st.write("Decision Tree Accuracy - ", dec_tree_accuracy*100, "%")
+
+    st.write("""---""")
+
+    # LOGISTIC REGRESSION MODEL
+    st.subheader("Model 2 - Logistic Regression")
+    st.code("""
+    LogisticRegression(C=1.0,
+                       class_weight=None,
+                       dual=False,
+                       fit_intercept=True,
+                       intercept_scaling=1,
+                       l1_ratio=None,
+                       max_iter=100,
+                       multi_class='auto',
+                       n_jobs=None,
+                       penalty='l2',
+                       random_state=None,
+                       solver='lbfgs',
+                       tol=0.0001,
+                       verbose=0,
+                       warm_start=False)
+    """)
+    st.write("Logistic Regression Accuracy - ", log_reg_accuracy*100, "%")
+
+    st.write("""---""")
+
+    # K-NEAREST NEIGHBORS MODEL
+    st.subheader("Model 3 - K-Nearest Neighbors")
+    st.code("""
+    KNeighborsClassifier(algorithm='auto',
+                         leaf_size=30,
+                         metric='minkowski',
+                         metric_params=None,
+                         n_jobs=None,
+                         n_neighbors=20,
+                         p=2,
+                         weights='uniform')
+    """)
+    st.write("K-Nearest Neighbors Accuracy - ", knn_accuracy*100, "%")
 
