@@ -6,39 +6,40 @@ from DecisionTree_DataUnderstanding import df_train
 from DecisionTree_DataUnderstanding import df_test
 from sklearn.preprocessing import MultiLabelBinarizer
 
+# ----- TRAIN DATASET -----
 # Removing any unnecessary string characters
-list_of_lists = []
-for row in df_train['ingredients']:
-    l = []
-    for lists in row:
+list_of_lists1 = []
+for row1 in df_train['ingredients']:
+    l1 = []
+    for lists1 in row1:
         # Remove Digits
-        lists = re.sub(r"(\d)", "", lists)
+        lists1 = re.sub(r"(\d)", "", lists1)
 
         # Remove Content Inside Parentheses
-        lists = re.sub(r"\([^)]*\)", "", lists)
+        lists1 = re.sub(r"\([^)]*\)", "", lists1)
 
         # Remove TradeMark Char
-        lists = re.sub(u"\u2122", "", lists)
+        lists1 = re.sub(u"\u2122", "", lists1)
 
         # Remove Unicode Char
-        lists = re.sub(r"[^\x00-\x7F]+", "", lists)
+        lists1 = re.sub(r"[^\x00-\x7F]+", "", lists1)
 
         # Remove percentage sign
-        lists = re.sub(r"%\s", "", lists)
+        lists1 = re.sub(r"%\s", "", lists1)
 
         # Remove random words
-        lists = re.sub(r"/ to  lb.", "", lists)
+        lists1 = re.sub(r"/ to  lb.", "", lists1)
 
         # Remove leading and trailing whitespace
-        lists = lists.strip()
+        lists1 = lists1.strip()
 
         # Convert to lowercase
-        lists = lists.lower()
+        lists1 = lists1.lower()
 
-        l.append(lists)
-    list_of_lists.append(l)
+        l1.append(lists1)
+    list_of_lists1.append(l1)
 
-df_train['ingredients'] = list_of_lists
+df_train['ingredients'] = list_of_lists1
 
 # Create set list for all ingredients
 all_ingredients = set()
@@ -57,6 +58,51 @@ df_train_onehot = df_train_copy.join(
     pd.DataFrame.sparse.from_spmatrix(
         mlb.fit_transform(df_train_copy.pop('ingredients')),
         index=df_train_copy.index,
+        columns=mlb.classes_))
+
+# ----- TEST DATASET -----
+# Removing any unnecessary string characters
+list_of_lists2 = []
+for row2 in df_test['ingredients']:
+    l2 = []
+    for lists2 in row2:
+        # Remove Digits
+        lists2 = re.sub(r"(\d)", "", lists2)
+
+        # Remove Content Inside Parentheses
+        lists2 = re.sub(r"\([^)]*\)", "", lists2)
+
+        # Remove TradeMark Char
+        lists2 = re.sub(u"\u2122", "", lists2)
+
+        # Remove Unicode Char
+        lists2 = re.sub(r"[^\x00-\x7F]+", "", lists2)
+
+        # Remove percentage sign
+        lists2 = re.sub(r"%\s", "", lists2)
+
+        # Remove random words
+        lists2 = re.sub(r"/ to  lb.", "", lists2)
+
+        # Remove leading and trailing whitespace
+        lists2 = lists2.strip()
+
+        # Convert to lowercase
+        lists2 = lists2.lower()
+
+        l2.append(lists2)
+    list_of_lists2.append(l2)
+
+df_test['ingredients'] = list_of_lists2
+
+# Create a copy of df_train for One-Hot Encoding method
+df_test_copy = df_test.copy()
+
+# Create new DataFrame for One-Hot Encoding method
+df_test_onehot = df_test_copy.join(
+    pd.DataFrame.sparse.from_spmatrix(
+        mlb.fit_transform(df_test_copy.pop('ingredients')),
+        index=df_test_copy.index,
         columns=mlb.classes_))
 
 # Section 3 - Data Preparation
