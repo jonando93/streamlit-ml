@@ -28,6 +28,7 @@ num_of_ing_dist = Counter(ingredients_per_recipe)
 df_num_of_ing_dist = pd.DataFrame.from_dict(num_of_ing_dist, orient='index', columns=['occurrences'])
 df_num_of_ing_dist.index.name = 'num_of_ingredients'
 
+
 # Section 4 - Exploratory Data Analysis
 def app():
     st.title("Section 4 - Exploratory Data Analysis")
