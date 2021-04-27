@@ -27,17 +27,17 @@ x_train, x_test, y_train, y_test = train_test_split(ingredients, cuisines, test_
 
 # Create object for decision tree model called dec_tree
 dec_tree = DecisionTreeClassifier(class_weight=None,
-                                         criterion='gini',
-                                         max_depth=None,
-                                         max_features=None,
-                                         max_leaf_nodes=None,
-                                         min_impurity_decrease=0.0,
-                                         min_impurity_split=None,
-                                         min_samples_leaf=1,
-                                         min_samples_split=2,
-                                         min_weight_fraction_leaf=0.0,
-                                         random_state=None,
-                                         splitter='best')
+                                  criterion='gini',
+                                  max_depth=None,
+                                  max_features=None,
+                                  max_leaf_nodes=None,
+                                  min_impurity_decrease=0.0,
+                                  min_impurity_split=None,
+                                  min_samples_leaf=1,
+                                  min_samples_split=2,
+                                  min_weight_fraction_leaf=0.0,
+                                  random_state=69,
+                                  splitter='best')
 dec_tree.fit(x_train, y_train)
 y_pred_dec_tree = dec_tree.predict(x_test)
 dec_tree_accuracy = accuracy_score(y_pred_dec_tree, y_test)
@@ -53,7 +53,7 @@ log_reg = LogisticRegression(C=1.0,
                              multi_class='auto',
                              n_jobs=None,
                              penalty='l2',
-                             random_state=None,
+                             random_state=69,
                              solver='lbfgs',
                              tol=0.0001,
                              verbose=0,
@@ -91,7 +91,7 @@ rand_forest = RandomForestClassifier(bootstrap=True,
                                      n_estimators=10,
                                      n_jobs=None,
                                      oob_score=False,
-                                     random_state=None,
+                                     random_state=69,
                                      verbose=0,
                                      warm_start=False)
 rand_forest.fit(x_train, y_train)
