@@ -7,19 +7,21 @@ import json
 JSON_data_train = open('Cuisine_train.json')
 JSON_data_test = open('Cuisine_test.json')
 
-# Return JSON object as dict
-data_train = json.load(JSON_data_train)
-data_test = json.load(JSON_data_test)
+
+# Create a function to read JSON object as dataframe
+def json_to_df(data):
+    load_json = json.load(data)
+    return pd.DataFrame(load_json)
+
 
 # Convert the dict into 2 new dataframe called df_train and df_test
-df_train = pd.DataFrame(data_train)
-df_test = pd.DataFrame(data_test)
+df_train = json_to_df(JSON_data_train)
+df_test = json_to_df(JSON_data_test)
 
-print(df_train.dtypes)
 
 # Section 2 - Data Understanding
 def app():
-    st.title("Section 2 - Data Understanding") # Add title
+    st.title("Section 2 - Data Understanding")  # Add title
     st.write("""
     ## **Content**
     > In this dataset, we include the recipe id, the type of cuisine, and the list of ingredients of each 
