@@ -1,7 +1,6 @@
 # Import Libraries
 import streamlit as st
 import pandas as pd
-import numpy as np
 from Classification_DataPrep import df_train
 from Classification_DataPrep import df_train_onehot
 from Classification_DataPrep import df_test_onehot
@@ -9,10 +8,9 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
-import graphviz
-from sklearn.tree import export_graphviz
+
 
 # ----- TEST DATASET -----
 # Since the TEST DATASET does not include cuisine column, I will use TRAIN DATASET instead.
