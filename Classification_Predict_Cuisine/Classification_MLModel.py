@@ -8,6 +8,7 @@ from Classification_DataPrep import df_test_onehot
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.model_selection import train_test_split
 import graphviz
@@ -77,6 +78,38 @@ knn.fit(x_train, y_train)
 y_pred_knn = knn.predict(x_test)
 knn_accuracy = accuracy_score(y_pred_knn, y_test)
 
+# Create object for Random Forest model called rand_forest
+rand_forest = RandomForestClassifier(bootstrap=True,
+                                     class_weight=None,
+                                     criterion='gini',
+                                     max_depth=None,
+                                     max_features='auto',
+                                     max_leaf_nodes=None,
+                                     min_impurity_decrease=0.0,
+                                     min_impurity_split=None,
+                                     min_samples_leaf=1,
+                                     min_samples_split=2,
+                                     min_weight_fraction_leaf=0.0,
+                                     n_estimators=10,
+                                     n_jobs=None,
+                                     oob_score=False,
+                                     random_state=None,
+                                     verbose=0,
+                                     warm_start=False)
+rand_forest.fit(x_train, y_train)
+y_pred_rand_forest = rand_forest.predict(x_test)
+rand_forest_accuracy = accuracy_score(y_pred_rand_forest, y_test)
+
+# Create new dataframe to record all ML's accuracy
+model_acc = {'Model' : ['Decision Tree',
+                        'Logistic Regression',
+                        'K-Nearest Neighbors',
+                        'Random Forest'],
+             'Accuracy_Score' : [dec_tree_accuracy,
+                                 log_reg_accuracy,
+                                 knn_accuracy,
+                                 rand_forest_accuracy]}
+df_model_acc = pd.DataFrame.from_dict(model_acc)
 
 # Section 5 - Machine Learning Model
 def app():
@@ -156,3 +189,36 @@ def app():
     """)
     st.write("K-Nearest Neighbors Accuracy - ", knn_accuracy*100, "%")
 
+    st.write("""---""")
+
+    # RANDOM FOREST MODEL
+    st.subheader("Model 4 - Random Forest")
+    st.code("""
+    RandomForestClassifier(bootstrap=True,
+                           class_weight=None,
+                           criterion='gini',
+                           max_depth=None,
+                           max_features='auto',
+                           max_leaf_nodes=None,
+                           min_impurity_decrease=0.0,
+                           min_impurity_split=None,
+                           min_samples_leaf=1,
+                           min_samples_split=2,
+                           min_weight_fraction_leaf=0.0,
+                           n_estimators=10,
+                           n_jobs=None,
+                           oob_score=False,
+                           random_state=None,
+                           verbose=0,
+                           warm_start=False)
+    """)
+    st.write("Random Forest Accuracy - ", rand_forest_accuracy*100, "%")
+
+    st.write("""---""")
+
+    st.subheader("Model Accuracy")
+    st.write("""
+    Out of all the models that were build, there are one particular model that has the best accuracy,
+    which is the Logistic Regression model with 78% accuracy.
+    """)
+    st.dataframe(df_model_acc)
