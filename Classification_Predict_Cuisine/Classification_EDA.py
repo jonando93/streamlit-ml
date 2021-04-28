@@ -30,7 +30,6 @@ df_num_of_ing_dist.index.name = 'num_of_ingredients'
 
 
 # Section 4 - Exploratory Data Analysis
-@st.cache
 def app():
     st.title("Section 4 - Exploratory Data Analysis")
     st.write("""

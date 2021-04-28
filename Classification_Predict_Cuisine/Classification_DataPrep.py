@@ -18,7 +18,6 @@ df_test_copy = df_test.copy()
 
 
 # Define function for string manipulation / string handling
-@st.cache
 def str_handling(data, column):
     list_of_lists = []
     for row in data[column]:
@@ -38,7 +37,7 @@ def str_handling(data, column):
 
 
 # Define function for One-Hot Encoding Method
-@st.cache
+@st.cache(suppress_st_warning=True)
 def one_hot(data, column):
     # Import necessary libraries
     # import pandas as pd
@@ -68,7 +67,6 @@ df_test_onehot = one_hot(data=df_test_copy, column='ingredients')
 
 
 # Section 3 - Data Preparation
-@st.cache
 def app():
     st.title("Section 3 - Data Preparation")
     st.write("""

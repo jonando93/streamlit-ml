@@ -16,13 +16,24 @@ input_x_test.reset_index(drop=True, inplace=True)
 
 
 # Section 6 - Machine Learning Model Showcase
-@st.cache
 def app():
     st.title("Section 6 - ML Model Showcase")
     st.write("""
     In this section, I am going to showcase all the ML models that have been build in the previous 
-    section, using the test dataset that are provided to predict the type of cuisine.
+    section, using the **x_test** dataset that are provided to predict the type of cuisine.
+    
+    In the train dataset, there is a mexican food that consists of:
+    - Blanched Almond Flour
+    - Sea Salt
+    - Tapioca Flour
+    - Warm Water
+    - Mild Olive Oil
+    
+    Let's try to input these ingredients to see how well these Machine Learning models predict type 
+    of cuisine!
     """)
+
+    st.write("""---""")
 
     # Insert Select Box to select ML Model
     model = st.selectbox("Select Machine Learning Model:", ["Decision Tree",
@@ -76,6 +87,10 @@ def app():
                                        ytrain=y_train,
                                        xtest=input_x_test)[0])
 
+    st.write("""---""")
+
+    st.write('Please reset the input after each prediction using the reset button below.')
+
     # Create 'Reset Input' button
     if st.button("Reset Input"):
         input_x_test[select_ing1] = 0
@@ -87,3 +102,23 @@ def app():
         Input has been reset successfully! \n
         Try another combination :D
         """)
+
+    st.write("""---""")
+
+    st.subheader("Discussion & Conclusion")
+    st.write("""
+    Decision Tree model predicts Southern US, which is close to Mexico.
+    
+    Logistic Regression model also predicts Southern US. *This is our highest scoring model.*
+    
+    KNN model predicts Italian.
+    
+    Random Forest model predicts Mexican. *The only model that predicts correctly.*
+    
+    Based on these results, some of the models almost predicted the correct result, maybe some of 
+    the Southern US cuisines are influenced by Mexican Cuisine.
+    
+    Random Forest model is an improved version of Decision Tree model. Decision Tree model works 
+    poorly compared to Random Forest model whenever there are a lot of labels (class) that needs
+    to be distinguished. In this dataset, there are 20 type of cuisines.
+    """)

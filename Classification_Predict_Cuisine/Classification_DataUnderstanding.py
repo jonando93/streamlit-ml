@@ -21,7 +21,6 @@ df_test = json_to_df(JSON_data_test)
 
 
 # Section 2 - Data Understanding
-@st.cache
 def app():
     st.title("Section 2 - Data Understanding")  # Add title
     st.write("""
