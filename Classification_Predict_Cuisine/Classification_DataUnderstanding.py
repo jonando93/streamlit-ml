@@ -8,8 +8,8 @@ JSON_data_train = open('Cuisine_train.json')
 JSON_data_test = open('Cuisine_test.json')
 
 
-@st.cache  # add st.cache to reduce run time of the web app
 # Create a function to read JSON object as dataframe
+@st.cache  # add st.cache to reduce run time of the web app
 def json_to_df(data):
     load_json = json.load(data)
     return pd.DataFrame(load_json)
@@ -21,6 +21,7 @@ df_test = json_to_df(JSON_data_test)
 
 
 # Section 2 - Data Understanding
+@st.cache
 def app():
     st.title("Section 2 - Data Understanding")  # Add title
     st.write("""

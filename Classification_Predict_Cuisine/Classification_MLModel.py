@@ -27,6 +27,7 @@ x_train, x_test, y_train, y_test = train_test_split(ingredients, cuisines, test_
 
 
 # MODEL 1 - DECISION TREE
+@st.cache
 def dec_tree_model(xtrain, ytrain, xtest):
     # Import necessary libraries
     # from sklearn.tree import DecisionTreeClassifier
@@ -55,6 +56,7 @@ dec_tree_accuracy = accuracy_score(yhat_dec_tree, y_test)
 
 
 # MODEL 2 - LOGISTIC REGRESSION
+@st.cache
 def log_reg_model(xtrain, ytrain, xtest):
     # Import necessary libraries
     # from sklearn.linear_model import LogisticRegression
@@ -86,6 +88,7 @@ log_reg_accuracy = accuracy_score(yhat_log_reg, y_test)
 
 
 # MODEL 3 - K-NEAREST NEIGHBORS
+@st.cache
 def knn_model(xtrain, ytrain, xtest):
     # Import necessary libraries
     # from sklearn.neighbors import KNeighborsClassifier
@@ -110,6 +113,7 @@ knn_accuracy = accuracy_score(yhat_knn, y_test)
 
 
 # MODEL 4 - RANDOM FOREST
+@st.cache
 def rand_forest_model(xtrain, ytrain, xtest):
     # Import necessary libraries
     # from sklearn.ensemble import RandomForestClassifier
@@ -155,6 +159,7 @@ df_model_acc = pd.DataFrame.from_dict(model_acc)
 
 
 # Section 5 - Machine Learning Model
+@st.cache
 def app():
     st.title("Section 5 - Machine Learning Model")
     st.write("""

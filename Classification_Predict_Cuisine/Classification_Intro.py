@@ -1,7 +1,9 @@
 # Import Libraries
 import streamlit as st
 
+
 # Section 1 - Introduction & Idea
+@st.cache
 def app():
     st.title("Section 1 - Introduction & Idea")
     st.write("""

@@ -16,6 +16,7 @@ input_x_test.reset_index(drop=True, inplace=True)
 
 
 # Section 6 - Machine Learning Model Showcase
+@st.cache
 def app():
     st.title("Section 6 - ML Model Showcase")
     st.write("""
