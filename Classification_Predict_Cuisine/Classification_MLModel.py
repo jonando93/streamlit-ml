@@ -6,7 +6,6 @@ from Classification_DataPrep import df_train_onehot
 from Classification_DataPrep import df_test_onehot
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
@@ -86,32 +85,7 @@ yhat_log_reg = log_reg_model(xtrain=x_train, ytrain=y_train, xtest=x_test)
 log_reg_accuracy = accuracy_score(yhat_log_reg, y_test)
 
 
-# MODEL 3 - K-NEAREST NEIGHBORS
-@st.cache(suppress_st_warning=True)
-def knn_model(xtrain, ytrain, xtest):
-    # Import necessary libraries
-    # from sklearn.neighbors import KNeighborsClassifier
-
-    # Create callable object for KNeighborsClassifier
-    knn = KNeighborsClassifier(algorithm='auto',
-                               leaf_size=30,
-                               metric='minkowski',
-                               metric_params=None,
-                               n_jobs=None,
-                               n_neighbors=20,
-                               p=2,
-                               weights='uniform')
-    knn.fit(xtrain, ytrain)
-    return knn.predict(xtest)
-
-
-# Predict using the K-Nearest Neighbors Model
-yhat_knn = knn_model(xtrain=x_train, ytrain=y_train, xtest=x_test)
-# Calculate the K-Nearest Neighbors model accuracy
-knn_accuracy = accuracy_score(yhat_knn, y_test)
-
-
-# MODEL 4 - RANDOM FOREST
+# MODEL 3 - RANDOM FOREST
 @st.cache(suppress_st_warning=True)
 def rand_forest_model(xtrain, ytrain, xtest):
     # Import necessary libraries
@@ -148,11 +122,9 @@ rand_forest_accuracy = accuracy_score(yhat_rand_forest, y_test)
 # Create new dataframe to record all ML's accuracy
 model_acc = {'Model': ['Decision Tree',
                        'Logistic Regression',
-                       'K-Nearest Neighbors',
                        'Random Forest'],
              'Accuracy_Score': [dec_tree_accuracy,
                                 log_reg_accuracy,
-                                knn_accuracy,
                                 rand_forest_accuracy]}
 df_model_acc = pd.DataFrame.from_dict(model_acc)
 
@@ -220,24 +192,8 @@ def app():
 
     st.write("""---""")
 
-    # K-NEAREST NEIGHBORS MODEL
-    st.subheader("Model 3 - K-Nearest Neighbors")
-    st.code("""
-    KNeighborsClassifier(algorithm='auto',
-                         leaf_size=30,
-                         metric='minkowski',
-                         metric_params=None,
-                         n_jobs=None,
-                         n_neighbors=20,
-                         p=2,
-                         weights='uniform')
-    """)
-    st.write("K-Nearest Neighbors Accuracy - ", knn_accuracy*100, "%")
-
-    st.write("""---""")
-
     # RANDOM FOREST MODEL
-    st.subheader("Model 4 - Random Forest")
+    st.subheader("Model 3 - Random Forest")
     st.code("""
     RandomForestClassifier(bootstrap=True,
                            class_weight=None,

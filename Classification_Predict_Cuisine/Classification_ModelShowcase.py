@@ -5,7 +5,6 @@ from Classification_MLModel import y_train
 from Classification_MLModel import x_test
 from Classification_MLModel import dec_tree_model
 from Classification_MLModel import log_reg_model
-from Classification_MLModel import knn_model
 from Classification_MLModel import rand_forest_model
 
 
@@ -38,7 +37,6 @@ def app():
     # Insert Select Box to select ML Model
     model = st.selectbox("Select Machine Learning Model:", ["Decision Tree",
                                                             "Logistic Regression",
-                                                            "K-Nearest Neighbors",
                                                             "Random Forest"])
 
     # Insert Select Box to select ingredients
@@ -68,15 +66,6 @@ def app():
             st.write(log_reg_model(xtrain=x_train,
                                    ytrain=y_train,
                                    xtest=input_x_test)[0])
-        elif model == "K-Nearest Neighbors":
-            input_x_test[select_ing1] = 1
-            input_x_test[select_ing2] = 1
-            input_x_test[select_ing3] = 1
-            input_x_test[select_ing4] = 1
-            input_x_test[select_ing5] = 1
-            st.write(knn_model(xtrain=x_train,
-                               ytrain=y_train,
-                               xtest=input_x_test)[0])
         else:
             input_x_test[select_ing1] = 1
             input_x_test[select_ing2] = 1
@@ -110,8 +99,6 @@ def app():
     Decision Tree model predicts Southern US, which is close to Mexico.
     
     Logistic Regression model also predicts Southern US. *This is our highest scoring model.*
-    
-    KNN model predicts Italian.
     
     Random Forest model predicts Mexican. *The only model that predicts correctly.*
     
