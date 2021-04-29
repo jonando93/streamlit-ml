@@ -68,12 +68,11 @@ def log_reg_model(xtrain, ytrain, xtest):
                                  fit_intercept=True,
                                  intercept_scaling=1,
                                  l1_ratio=None,
-                                 max_iter=100,
                                  multi_class='auto',
                                  n_jobs=None,
                                  penalty='l2',
                                  random_state=69,
-                                 solver='lbfgs',
+                                 solver='liblinear',
                                  tol=0.0001,
                                  verbose=0,
                                  warm_start=False)
