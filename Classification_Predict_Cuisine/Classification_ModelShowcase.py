@@ -22,7 +22,7 @@ def app():
     In this section, I am going to showcase all the ML models that have been build in the previous 
     section, using the **x_test** dataset that are provided to predict the type of cuisine.
     
-    In the train dataset, there is a mexican food that consists of:
+    In the train dataset, there is a Mexican food that consists of:
     - Blanched Almond Flour
     - Sea Salt
     - Tapioca Flour
