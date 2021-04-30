@@ -2,18 +2,12 @@
 import streamlit as st
 import pandas as pd
 from Classification_DataPrep import df_train
-from Classification_DataPrep import df_train_onehot
-from Classification_DataPrep import df_test_onehot
+from Classification_EDA import df_train_onehot
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
-
-
-# ---------- TEST DATASET ----------
-# Since the TEST DATASET does not include cuisine column, I will use TRAIN DATASET instead.
-ingredients_test = df_test_onehot.iloc[:, 1:]
 
 # ---------- TRAIN DATASET ----------
 # I will split the Train dataset to create 4 variables (xy train & xy test)
