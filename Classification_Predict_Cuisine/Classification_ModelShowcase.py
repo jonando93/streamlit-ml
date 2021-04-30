@@ -45,6 +45,11 @@ def app():
     select_ing3 = st.selectbox("Input 3rd Ingredients:", input_x_test.columns)
     select_ing4 = st.selectbox("Input 4th Ingredients:", input_x_test.columns)
     select_ing5 = st.selectbox("Input 5th Ingredients:", input_x_test.columns)
+    select_ing6 = st.selectbox("Input 6th Ingredients:", input_x_test.columns)
+    select_ing7 = st.selectbox("Input 7th Ingredients:", input_x_test.columns)
+    select_ing8 = st.selectbox("Input 8th Ingredients:", input_x_test.columns)
+    select_ing9 = st.selectbox("Input 9th Ingredients:", input_x_test.columns)
+    select_ing10 = st.selectbox("Input 10th Ingredients:", input_x_test.columns)
 
     # Create 'Predict' button to predict cuisine based on ingredients
     if st.button("Predict"):
@@ -54,6 +59,11 @@ def app():
             input_x_test[select_ing3] = 1
             input_x_test[select_ing4] = 1
             input_x_test[select_ing5] = 1
+            input_x_test[select_ing6] = 1
+            input_x_test[select_ing7] = 1
+            input_x_test[select_ing8] = 1
+            input_x_test[select_ing9] = 1
+            input_x_test[select_ing10] = 1
             st.write(dec_tree_model(xtrain=x_train,
                                     ytrain=y_train,
                                     xtest=input_x_test)[0])
@@ -63,6 +73,11 @@ def app():
             input_x_test[select_ing3] = 1
             input_x_test[select_ing4] = 1
             input_x_test[select_ing5] = 1
+            input_x_test[select_ing6] = 1
+            input_x_test[select_ing7] = 1
+            input_x_test[select_ing8] = 1
+            input_x_test[select_ing9] = 1
+            input_x_test[select_ing10] = 1
             st.write(log_reg_model(xtrain=x_train,
                                    ytrain=y_train,
                                    xtest=input_x_test)[0])
@@ -72,6 +87,11 @@ def app():
             input_x_test[select_ing3] = 1
             input_x_test[select_ing4] = 1
             input_x_test[select_ing5] = 1
+            input_x_test[select_ing6] = 1
+            input_x_test[select_ing7] = 1
+            input_x_test[select_ing8] = 1
+            input_x_test[select_ing9] = 1
+            input_x_test[select_ing10] = 1
             st.write(rand_forest_model(xtrain=x_train,
                                        ytrain=y_train,
                                        xtest=input_x_test)[0])
@@ -87,6 +107,11 @@ def app():
         input_x_test[select_ing3] = 0
         input_x_test[select_ing4] = 0
         input_x_test[select_ing5] = 0
+        input_x_test[select_ing6] = 0
+        input_x_test[select_ing7] = 0
+        input_x_test[select_ing8] = 0
+        input_x_test[select_ing9] = 0
+        input_x_test[select_ing10] = 0
         st.write("""
         Input has been reset successfully! \n
         Try another combination :D
