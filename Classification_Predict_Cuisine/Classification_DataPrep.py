@@ -5,10 +5,10 @@ from Classification_DataUnderstanding import df_train
 from Classification_DataUnderstanding import df_test
 
 # Create set list for all ingredients
-all_ingredients = set()
+all_ingredients_before = set()
 for ingredients in df_train['ingredients']:
-    all_ingredients = all_ingredients | set(ingredients)
-len(all_ingredients)
+    all_ingredients_before = all_ingredients_before | set(ingredients)
+len(all_ingredients_before)
 
 # Create a copy of df_train and df_test for String Handling & One-Hot Encoding method
 df_train_copy = df_train.copy()
@@ -38,12 +38,18 @@ def str_handling(data, column):
 # String Handling
 str_handling(data=df_train_copy, column='ingredients')
 
+# Create set list for all ingredients
+all_ingredients_after = set()
+for ingredients in df_train_copy['ingredients']:
+    all_ingredients_after = all_ingredients_after | set(ingredients)
+len(all_ingredients_after)
+
 
 # Section 3 - Data Preparation
 def app():
     st.title("Section 3 - Data Preparation")
     st.write("""
-    ## **Data Checking & Cleaning** (If Necessary)
+    ## **Data Checking & String Manipulation**)
     """)
     st.subheader("Type of Cuisine Distribution")
     st.write(df_train['cuisine'].value_counts())
@@ -56,10 +62,10 @@ def app():
     st.write("""---""")
 
     st.subheader("Unique Ingredients")
-    st.write(len(all_ingredients))
+    st.write(len(all_ingredients_before))
     st.write("""
     There are a total of {} unique ingredients in this dataset.
-    """.format(len(all_ingredients)))
+    """.format(len(all_ingredients_before)))
 
     st.write("""---""")
 
@@ -82,6 +88,15 @@ def app():
             "re.sub(r'[^\x00-\x7F]+', '', list) # remove unicode characters \n"
             "re.sub(r'%\s', '', list) # remove percentage sign and its trailing whitespace \n"
             "list.strip() # remove leading and trailing whitespace")
+
+    st.write("""---""")
+
+    st.write("""
+    ## **Data After String Manipulation**
+    """)
+
+    st.subheader("Unique Ingredients")
+    st.write(len(all_ingredients_after))
 
     st.write("""---""")
 
