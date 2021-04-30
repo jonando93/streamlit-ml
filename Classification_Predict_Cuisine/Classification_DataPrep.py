@@ -1,10 +1,8 @@
 # Import Libraries
 import streamlit as st
 import re
-import pandas as pd
 from Classification_DataUnderstanding import df_train
 from Classification_DataUnderstanding import df_test
-from sklearn.preprocessing import MultiLabelBinarizer
 
 # Create set list for all ingredients
 all_ingredients = set()
@@ -36,34 +34,9 @@ def str_handling(data, column):
     data[column] = list_of_lists
 
 
-# Define function for One-Hot Encoding Method
-@st.cache(suppress_st_warning=True)
-def one_hot(data, column):
-    # Import necessary libraries
-    # import pandas as pd
-    # from sklearn.preprocessing import MultiLabelBinarizer
-
-    # Create object for MultiLabelBinarizer
-    mlb = MultiLabelBinarizer(sparse_output=True)
-
-    return data.join(pd.DataFrame.sparse.from_spmatrix(mlb.fit_transform(data.pop(column)),
-                                                       index=data.index,
-                                                       columns=mlb.classes_))
-
-
 # ---------- TRAIN DATASET ----------
 # String Handling
 str_handling(data=df_train_copy, column='ingredients')
-
-# Apply One-Hot Encoding method to clean dataframe
-df_train_onehot = one_hot(data=df_train_copy, column='ingredients')
-
-# ---------- TEST DATASET ----------
-# String Handling
-str_handling(data=df_test_copy, column='ingredients')
-
-# Apply One-Hot Encoding method to clean dataframe
-df_test_onehot = one_hot(data=df_test_copy, column='ingredients')
 
 
 # Section 3 - Data Preparation
