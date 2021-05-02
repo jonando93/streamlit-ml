@@ -4,7 +4,7 @@ import re
 from Classification_DataUnderstanding import df_train
 from Classification_DataUnderstanding import df_test
 
-# Create set list for all ingredients
+# Create set list for all ingredients before string handling
 all_ingredients_before = set()
 for ingredients in df_train['ingredients']:
     all_ingredients_before = all_ingredients_before | set(ingredients)
@@ -38,7 +38,7 @@ def str_handling(data, column):
 # String Handling
 str_handling(data=df_train_copy, column='ingredients')
 
-# Create set list for all ingredients
+# Create set list for all ingredients after string handling
 all_ingredients_after = set()
 for ingredients in df_train_copy['ingredients']:
     all_ingredients_after = all_ingredients_after | set(ingredients)
