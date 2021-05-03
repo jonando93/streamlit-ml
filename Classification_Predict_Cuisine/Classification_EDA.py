@@ -2,28 +2,24 @@
 import pandas as pd
 import numpy as np
 import streamlit as st
-from Classification_DataPrep import df_train
-from Classification_DataPrep import str_handling
+from Classification_DataPrep import df_train_copy
 from collections import Counter
 from sklearn.preprocessing import MultiLabelBinarizer
 
-# Create a copy of the df_train dataset
-df_train_clean = df_train.copy()
-
-# Apply str_handling to clean the dataset
-str_handling(df_train_clean, column='ingredients')
+# Create a copy of the clean dataset
+df_train_clean = df_train_copy.copy()
 
 # Create variable for all entries (number of rows)
 row_entries = len(df_train_clean['id'])
 
 # Create 2 variables for total_ingredients and average_ingredients
-total_ingredients = 0
+total_ingredients_before = 0
 for ingredients in df_train_clean['ingredients']:
-    total_ingredients += len(ingredients)
-average_ingredients = total_ingredients / row_entries
+    total_ingredients_before += len(ingredients)
+average_ingredients_before = total_ingredients_before / row_entries
 
 # Create variable for cuisine distributions
-cuisine_dist = df_train_clean['cuisine'].value_counts()
+cuisine_dist_before = df_train_clean['cuisine'].value_counts()
 
 # Create variable for ingredients per recipe and least ingredients
 ingredients_per_recipe = []
@@ -42,8 +38,6 @@ df_train_clean['len'] = df_train_clean['ingredients'].str.len()  # create new co
 df_train_clean = df_train_clean[df_train_clean['len'] > 3]  # remove recipes that have less than 4 ing.
 df_train_clean = df_train_clean[df_train_clean['len'] < 18]  # remove recipes that have more than 17 ing.
 df_train_clean = df_train_clean.reset_index(drop=True)  # reset index
-print(df_train_clean.shape)
-print(df_train_clean.head())
 
 
 # Define a function for undersampling type of cuisine (class)
@@ -56,32 +50,39 @@ def undersampling(data, value, column='cuisine', threshold=2000):
 
 # Define a function for oversampling type of cuisine (class)
 def oversampling(data, value, column='cuisine'):
+    init_data = data[data[column] == value]
     data_copy = data[data[column] == value].copy()
-    return pd.concat([data, data_copy])  # return a dataframe
+    init_data = pd.concat([init_data, data_copy])  # return a dataframe
+    return init_data
 
 
 def resampling(dataset, column='cuisine'):
-    df_resampled = pd.DataFrame()
+    appended_data = []
     cuisine_list = dataset[column].unique().tolist()
     for lists in cuisine_list:
-        filter_value = dataset[dataset[column] == str(lists)]
-        if filter_value[column].value_counts().item() < 1000:
-            oversampled = oversampling(data=dataset, value=str(lists))
-            df_resampled = pd.concat([oversampled])
-        elif filter_value[column].value_counts().item() > 2000:
-            undersampled = undersampling(data=dataset, value=str(lists))
-            df_resampled = pd.concat([undersampled])
+        filter_value = dataset[dataset[column] == lists]
+        if len(filter_value[column]) < 1000:
+            oversampled = oversampling(data=dataset, value=lists)
+            appended_data.append(oversampled)
+        elif len(filter_value[column]) > 2000:
+            undersampled = undersampling(data=dataset, value=lists)
+            appended_data.append(undersampled)
         else:
-            df_resampled = pd.concat([filter_value])
-    return df_resampled
+            sampled = filter_value
+            appended_data.append(sampled)
+    return pd.concat(appended_data)
 
 
 # Resample the clean dataset
 df_train_resampled = resampling(dataset=df_train_clean)
-print(df_train_resampled.shape)
 
 # Drop 'len' column before applying one-hot encoding
 df_train_resampled = df_train_resampled.drop(['len'], axis=1)
+
+# Create variable for Amount of Ingredients Distribution after Adjustment
+
+# Create variable for Cuisine Distribution after Resampling
+cuisine_dist_after = df_train_resampled['cuisine'].value_counts()
 
 
 # Define function for One-Hot Encoding Method
@@ -111,7 +112,7 @@ def app():
     In this Exploratory Data Analysis phase, I am going to visualize the data.
     """)
     st.subheader("Type of Cuisine Distribution")
-    st.bar_chart(cuisine_dist)
+    st.bar_chart(cuisine_dist_before)
 
     st.write("""---""")
 
@@ -121,7 +122,7 @@ def app():
             "     total_ingredients += len(ingredients)\n"
             "average_ingredients = total_ingredients / row_entries\n"
             "print(average_ingredients)")
-    st.write(average_ingredients)
+    st.write(average_ingredients_before)
     st.write("""
     The average amount of ingredients per recipe is between 10 and 11
     """)
@@ -140,11 +141,9 @@ def app():
     st.write(df_num_of_ing_dist)
     st.bar_chart(df_num_of_ing_dist)
 
-    st.write("""---""")
-
-    st.subheader("Adjusting / Normalizing Amount of Ingredients Distribution")
+    st.write("### **Adjusting / Normalizing Amount of Ingredients Distribution**")
     st.write("""
-    Based on the plot in 'Amount of Ingredients Distribution', there are a lot of recipes that
+    Based on the plot in 'Amount of Ingredients Distribution' above, there are a lot of recipes that
     have less than 4 or more than 17 ingredients and have the number of occurrences below 1000.
     
     The majority of data falls between 4 and 19 ingredients per recipe, and these recipes
@@ -153,9 +152,7 @@ def app():
     of the classification models.
     """)
 
-    st.write("""---""")
-
-    st.subheader("Random Resampling an Imbalanced Dataset")
+    st.write("### **Random Resampling an Imbalanced Dataset**")
     st.write("""
     As shown in the 'Type of Cuisine Distribution', we can clearly see that this dataset is
     imbalanced in terms of cuisine (class) distribution. To solve this problem, I have
@@ -167,6 +164,13 @@ def app():
     > - [MachineLearningMastery](https://machinelearningmastery.com/random-oversampling-and-undersampling-for-imbalanced-classification/)
     
     Based on the plot shown in the 'Type of Cuisine Distribution', I will set the threshold
-    value of 1500. I will apply oversampling/undersampling for each cuisine to meet the
+    value of 2000. I will apply oversampling/undersampling for each cuisine to meet the
     threshold value.
     """)
+
+    st.write("""---""")
+
+    st.write("### **After Dataset Adjustment and Resampling**")
+    st.subheader("Type of Cuisine Distribution")
+    st.bar_chart(cuisine_dist_after)
+    st.write("As seen on the bar chart above, the type of cuisine distribution is more balanced.")
